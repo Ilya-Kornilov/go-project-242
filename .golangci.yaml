@@ -1,3 +1,5 @@
+version: "2"
+
 run:
   timeout: 5m
 
@@ -17,9 +19,12 @@ linters:
     - govet
     - staticcheck
     - unused
+    - revive
+
+formatters:
+  enable:
     - gofmt
     - goimports
-    - revive
 
 issues:
   exclude-use-default: false

@@ -6,8 +6,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
 
 	"github.com/urfave/cli/v3"
 )
@@ -35,28 +33,25 @@ func main() {
 		},
 		Action: func(_ context.Context, cmd *cli.Command) error {
 			args := cmd.Args()
-			
+
 			if args.Len() > 0 {
 				path := args.First()
-				isAll := cmd.Bool("all")
 				isRecursive := cmd.Bool("recursive")
-				
-				size, err := code.GetPathSize(path, isAll, isRecursive)
+				isHuman := cmd.Bool("human")
+				isAll := cmd.Bool("all")
+
+				size, err := code.GetPathSize(
+					path, isRecursive, isHuman, isAll,
+				)
 				if err != nil {
 					return fmt.Errorf("failed to get path size: %w", err)
 				}
 
-				sizeStr := strings.TrimSuffix(size, "B")
-				numSize, err := strconv.ParseInt(sizeStr, 10, 64)
-				if err != nil {
-					return fmt.Errorf("failed to parse size %s: %w", size, err)
-				}
-				formattedSize := code.FormatSize(numSize, cmd.Bool("human"))
-
-				fmt.Printf("%s\t%s\n", formattedSize, path)
+				fmt.Printf("%s\t%s\n", size, path)
 				return nil
 			}
-			fmt.Println("Hello from Hexlet!")
+
+			fmt.Println("Run the program with `-h` flag")
 			return nil
 		},
 	}

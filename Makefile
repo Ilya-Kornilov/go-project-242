@@ -1,6 +1,5 @@
 .PHONY: build clean test lint lint-fix
 
-# Директория для бинарников
 BIN_DIR := bin
 BINARY_NAME := hexlet-path-size
 CMD_PATH := ./cmd/hexlet-path-size
